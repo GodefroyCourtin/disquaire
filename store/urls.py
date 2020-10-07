@@ -1,9 +1,12 @@
 
-from django.conf.urls import url 
+from django.urls import path
 from . import views  # importer toutes les les vues de notre applications
 
+app_name = "store"
+
 urlpatterns = [            
-    url(r"^$", views.listing), # toute urls qui commencent ou finit par une chaine vide est relié à la vue index. 
-    url(r'^(?P<album_id>[0-9]+)/$', views.detail),  # /store/2 ou /store/12 par exemple
-    url(r"^search/$", views.search),
+    path("", views.index, name = "index"),
+    path("listing", views.listing, name = "listing"), # toute urls qui commencent ou finit par une chaine vide est relié à la vue index. 
+    path('detail/<int:album_id>', views.detail, name = "detail"),  # /store/2 ou /store/12 par exemple
+    path("search", views.search,name = "search"),
 ] 

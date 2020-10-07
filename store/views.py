@@ -1,10 +1,10 @@
-# from django.shortcuts import render
+from django.shortcuts import render
 
-from django.http import HttpResponse
+# from django.http import HttpResponse
 
 from .models import Artist, Album, Contact, Booking
 
-from django.template import loader
+# from django.template import loader
 
 # Create your views here.
 
@@ -12,12 +12,10 @@ from django.template import loader
 
 def index(request):
     albums = Album.objects.filter(available=True).order_by("-created_at")[:3]
-    formatted_albums = ["<li>{}</li>".format(album.title) for album in albums]
-    template = loader.get_template('store/index.html')
     context = {
         'albums': albums
     }
-    return HttpResponse(template.render(context, request=request))
+    return render(request, 'store/index.html', context)
     
     
     
@@ -25,15 +23,19 @@ def index(request):
 
 def listing(request):
     albums = Album.objects.filter(available=True)
-    formatted_albums = ["<li>{}</li>".format(album.title) for album in albums]
-    message = """<ul>{}</ul>""".format("\n".join(formatted_albums))
-    return HttpResponse(message)
+    context = {
+        'albums': albums 
+    }
+    return render(request, 'store/listing.html', context)
 
 def detail(request, album_id):
     album = Album.objects.get(pk=album_id)
-    artists = " ".join([artist.name for artist in album.artists.all()]) # grab artists name and create a string out of it.
-    message = "Le nom de l'album est {}. Il a été écrit par {}".format(album.title, artists)
-    return HttpResponse(message)
+    artists_name = " ".join([artist.name for artist in album.artists.all()]) # grab artists name and create a string out of it.
+    context = {
+        'album':album,
+        'artists_name': artists_name,
+    }
+    return render(request, 'store/detail.html', context)
 
 def search(request):
     query = request.GET.get('query')
@@ -57,4 +59,4 @@ def search(request):
             <ul>{}</ul>
         """.format("</li><li>".join(albums))
 
-    return HttpResponse(message)
+    return render(request, 'store/search.html', context)

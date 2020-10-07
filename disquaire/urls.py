@@ -22,15 +22,15 @@ from django.urls import path
 from store import views
 
 urlpatterns = [
-    url(r'^$', views.index),
-    url(r'^store/', include('store.urls')),  #url, va directement cherhcer les url qui commencent par store/
+    # url(r'^$', views.index),
+    path('', include('store.urls')),  #url, va directement cherhcer les url qui commencent par store/
     path("admin/", admin.site.urls),         #path, va directement dans le dossier "admin"
     
 ]
 
-if settings.DEBUG:
-    import debug_toolbar
+# if settings.DEBUG:
+#     import debug_toolbar
 
-    urlpatterns = [
-        url(r"^__debug__/", include(debug_toolbar.urls)),
-    ] + urlpatterns
+#     urlpatterns = [
+#         url(r"^__debug__/", include(debug_toolbar.urls)),
+#     ] + urlpatterns
