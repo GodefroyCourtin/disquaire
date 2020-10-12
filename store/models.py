@@ -12,9 +12,11 @@ class Artist(models.Model):
 class Contact(models.Model):
     email = models.EmailField(max_length=100)
     name = models.CharField(max_length=200)
+    photo = models.ImageField(null = True, blank=True)
+    # upload_to='photos/'
 
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.name
 
 class Album(models.Model):
     reference = models.IntegerField(null=True)
@@ -36,3 +38,6 @@ class Booking(models.Model):
     def __str__(self):
         return self.contact.name
 
+
+# model po
+# photo = models.ImageField(upload_to='photos/')
